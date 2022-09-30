@@ -1,0 +1,25 @@
+import logging
+from core import Dairy, Weather
+
+
+class BaseConfig(object):
+    mail = dict(
+        host='smtp.qq.com',
+        username='xxxx@qq.com',
+        password='authorazion code',
+        to='xxxx@qq.com',
+        subject='sub',
+        template_path='datas/mail_template.html')
+    dairy = dict(
+        birthday='2000-1-1',
+        template_path='datas/dairy_template.html')
+    weather = dict(
+        sk='10000001',
+        template_path='datas/weather_template.html')
+    log = dict(
+        format='%(asctime)s - %(name)s - %(levelname)s %(message)s',
+        level=logging.INFO,
+        save_dir='logs/')
+    schedule = dict(
+        queue = [Dairy, Weather],
+        time='09:00')

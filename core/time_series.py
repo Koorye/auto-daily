@@ -26,7 +26,7 @@ class TimeSeries(object):
     def _load_txt(self):
         mode = self.cfg['mode']
         with open(self.cfg['data_path']) as f:
-            results = f.readlines()
+            results = list(filter(lambda x: len(x) > 0, [x.strip() for x in f.readlines()]))
             if len(results) < 3:
                 return None, None
         if mode == 'number':

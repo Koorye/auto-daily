@@ -1,5 +1,4 @@
 import datetime
-import re
 import numpy as np
 from pmdarima import auto_arima
 

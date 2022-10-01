@@ -1,3 +1,4 @@
 config.py
 logs/
 __pycache__/
+datas/*.txt

@@ -7,7 +7,19 @@ API = dict(
         url='http://www.weather.com.cn/data/sk/{1}.html',
         desc='中国天气网，根据城市代码获取天气',
         method='get'),
-)
+    get_weather_hefeng=dict(
+        url='https://devapi.qweather.com/v7/weather/now',
+        desc='获取当前天气',
+        method='get'),
+    get_air_quality=dict(
+        url='https://devapi.qweather.com/v7/indices/1d',
+        desc='获取空气指数',
+        method='get',
+        data=dict(type='1,3,8,9,16')),
+    get_weather_warn=dict(
+        url='https://devapi.qweather.com/v7/warning/now',
+        desc='获取灾害预警',
+        method='get'))
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -43,9 +55,9 @@ class Api(object):
             base_headers.update(headers)
         
         if method == 'get':
-            resp = requests.get(url, params=data, headers=headers)
+            resp = requests.get(url, params=base_data, headers=base_headers)
         elif method == 'post':
-            resp = requests.post(url, data=json.dumps(data), headers=headers)
+            resp = requests.post(url, data=json.dumps(base_data), headers=base_headers)
         else:
             raise NotImplementedError
         return resp

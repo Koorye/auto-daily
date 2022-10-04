@@ -1,6 +1,6 @@
-from core import TimeSeries
+from core import Scheduler
 from config import MyConfig
 
 
-ts = TimeSeries(MyConfig())
-print(ts.run())
+sch = Scheduler(MyConfig())
+sch.run_once()

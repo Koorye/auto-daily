@@ -2,8 +2,6 @@ import datetime
 import numpy as np
 from pmdarima import auto_arima
 
-from .utils import parse_html
-
 
 class TimeSeries(object):
     def __init__(self, cfg):
@@ -12,15 +10,17 @@ class TimeSeries(object):
     def run(self):
         template_path, topic, update = self.cfg['template_path'], self.cfg['topic'], self.cfg['update_url']
         results, last = self._load_txt()
+        topic = f'<h2>{topic}</h2>'
+        btn = f'<a href={update}>今日发生？点击这里</a>'
         if results is None:
-            return parse_html(template_path, [topic, '当前数据不足', update])
+            return [topic, '数据不足，无法预测', btn, '\n']
 
         model = auto_arima(results)
         pred = model.predict(1)[0]
         if self.cfg['mode'] == 'date':
             pred = last + datetime.timedelta(days=round(pred))
-        html = parse_html(template_path, [topic, pred, update])
-        return html
+        results = [topic, f'下次发生时间: {pred}', btn, '\n']
+        return results
 
     def _load_txt(self):
         mode = self.cfg['mode']

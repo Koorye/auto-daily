@@ -1,7 +1,5 @@
 import datetime
 
-from .utils import parse_html
-
 
 class Dairy(object):
     def __init__(self, cfg):
@@ -19,8 +17,8 @@ class Dairy(object):
             birthday = datetime.date(today.year + 1, month, day)
         next_birth_days = (birthday - today).days
         
-        html = parse_html(self.cfg['template_path'], [spawn_days, next_birth_days])
-        print(html)
-        return html
-    
+        results = ['<h2>日历</h2>', 
+                   f'今天是你出生的第<b>{spawn_days}</b>天，距离下次生日还有<b>{next_birth_days}</b>天',
+                   '\n']
+        return results
     

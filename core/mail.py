@@ -1,7 +1,6 @@
 import yagmail
 
 from .logger import Logger
-from .utils import parse_html
 
 
 class Mail(object):
@@ -15,5 +14,4 @@ class Mail(object):
     def run(self, results):
         to = self.cfg['to']
         subject = self.cfg['subject']
-        content = parse_html(self.cfg['template_path'], [subject] + results)
-        self.client.send(to, subject, content)
+        self.client.send(to, subject, results)

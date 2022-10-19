@@ -19,7 +19,32 @@ API = dict(
     get_weather_warn=dict(
         url='https://devapi.qweather.com/v7/warning/now',
         desc='获取灾害预警',
-        method='get'))
+        method='get'),
+    youth_study_history=dict(
+        url='https://dxx.scyol.com/api/student/studyHostory',
+        desc='获取青年大学习历史记录',
+        method='post',
+        data=dict(
+            pageNo=1,
+            pageSize=1)),
+    youth_study_org=dict(
+        url='https://dxx.scyol.com/api/student/showStudyStageOrg',
+        desc='获取青年大学习组织',
+        method='post',
+        data=dict(
+            stageId=None,
+            id=None)),
+    youth_study_commit=dict(
+        url='https://dxx.scyol.com/api/student/commit',
+        desc='青年大学习提交',
+        method='post',
+        data=dict(
+            name=None,
+            tel=None,
+            org=None,
+            lastOrg=None,
+            orgName=None,
+            allOrgName=None)))
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -35,7 +60,7 @@ class Api(object):
         self.api = API
         self.headers = HEADERS
     
-    def req(self, name, data=None, headers=None, fills=None):
+    def req(self, name, data=None, headers=None, fills=None, mode='data'):
         api = self.api.get(name)
         if api is None:
             print('api is not found!')
@@ -57,7 +82,14 @@ class Api(object):
         if method == 'get':
             resp = requests.get(url, params=base_data, headers=base_headers)
         elif method == 'post':
-            resp = requests.post(url, data=json.dumps(base_data), headers=base_headers)
+            if mode =='param':
+                resp = requests.post(url, params=base_data, headers=base_headers)
+            elif mode == 'data':
+                resp = requests.post(url, data=json.dumps(base_data), headers=base_headers)
+            elif mode == 'json':
+                resp = requests.post(url, json=base_data, headers=base_headers)
+            else:
+                raise NotImplementedError
         else:
             raise NotImplementedError
         return resp

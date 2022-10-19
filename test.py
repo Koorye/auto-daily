@@ -1,6 +1,6 @@
-from core import Scheduler
+from core import Scheduler, YouthStudy
 from config import MyConfig
 
 
-sch = Scheduler(MyConfig())
-sch.run_once()
+model = YouthStudy(MyConfig())
+model.run()
